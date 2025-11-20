@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ОГЭ Математика 2024 | Полный курс</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4cc9f0;
+            --secondary: #4361ee;
+            --accent: #7209b7;
+            --success: #00b894;
+            --danger: #ff7675;
+            --warning: #fdcb6e;
+            --text-main: #ffffff;
+            --text-muted: #e0e0e0;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --bg-gradient: radial-gradient(circle at top left, #101025, #16213e, #0f3460);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* === ФОНОВАЯ АНИМАЦИЯ === */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float linear infinite;
+        }
+
+        .shape.symbol {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Фигуры */
+        .shape.triangle {
+            width: 0; height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid var(--secondary);
+        }
+        .shape.circle {
+            width: 30px; height: 30px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+        }
+        .shape.square {
+            width: 25px; height: 25px;
+            border: 3px solid var(--success);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 0.2; }
+            80% { opacity: 0.2; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* === UI === */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            background: rgba(20, 20, 40, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Навигация */
+        .nav-scroll {
+            overflow-x: auto;
+            padding-bottom: 5px;
+            margin-top: 20px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+
+        .nav-container {
+            display: flex;
+            gap: 10px;
+            min-width: max-content;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container { justify-content: flex-start; padding: 0 10px; }
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 1rem;
+        }
+
+        .nav-btn.active {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Контент */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .content-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            border-left: 5px solid var(--secondary);
+            padding-left: 15px;
+        }
+
+        h3 {
+            color: var(--text-main);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* Математика */
+        .math-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            margin: 15px 0;
+            border-left: 3px solid var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .fraction {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+        .fraction .top { border-bottom: 1px solid #fff; display: block; padding: 0 4px; }
+        .fraction .bottom { display: block; padding: 0 4px; }
+        .sup { vertical-align: super; font-size: 0.7em; }
+
+        /* Таблицы */
+        .math-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .math-table th, .math-table td {
+            padding: 12px;
+            border: 1px solid var(--card-border);
+            text-align: center;
+        }
+        .math-table th { background: rgba(67, 97, 238, 0.3); }
+
+        /* Геометрия */
+        .geo-svg {
+            stroke: white;
+            stroke-width: 2;
+            fill: rgba(255,255,255,0.05);
+            display: block;
+            margin: 0 auto 15px auto;
+        }
+        .geo-text { fill: #aaa; font-size: 14px; font-family: 'Inter'; stroke: none; }
+
+        /* Фильтры заданий */
+        .practice-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* Блок задания */
+        .task-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .task-num {
+            display: inline-block;
+            background: var(--accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .answer-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .task-input {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid var(--card-border);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            flex-grow: 1;
+            min-width: 150px;
+        }
+
+        .check-btn {
+            background: var(--success);
+            border: none;
+            color: white;
+            padding: 0 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .result { margin-top: 10px; font-weight: bold; display: none; }
+        .result.ok { color: var(--success); display: block; }
+        .result.bad { color: var(--danger); display: block; }
+
+        .solution-toggle {
+            color: var(--text-muted);
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        .solution-content {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: rgba(67, 97, 238, 0.15);
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 40px;
+        }
+
+        .tip-card { border-left: 4px solid var(--warning); }
+    </style>
+</head>
+<body>
+
+    <!-- Фон -->
+    <div class="background-shapes" id="bgShapes"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">ОГЭ <span style="font-weight:300">Математика</span></div>
+            <p class="subtitle">Тренажер с генерацией заданий 2024</p>
+
+            <div class="nav-scroll">
+                <nav class="nav-container">
+                    <div class="nav-btn active" onclick="showSection('algebra')">Алгебра</div>
+                    <div class="nav-btn" onclick="showSection('geometry')">Геометрия</div>
+                    <div class="nav-btn" onclick="showSection('formulas')">Формулы</div>
+                    <div class="nav-btn" onclick="showSection('tasks')">Задания 1-19</div>
+                    <div class="nav-btn" onclick="showSection('part2')">Часть 2</div>
+                    <div class="nav-btn" onclick="showSection('tips')">Подсказки</div>
+                    <div class="nav-btn" onclick="showSection('info')">Инфо</div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- АЛГЕБРА (ТЕОРИЯ) -->
+        <section id="algebra" class="content-section active">
+            <h2>📊 Алгебра</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Квадратные уравнения</h3>
+                    <p>Общий вид: ax² + bx + c = 0</p>
+                    <div class="math-block">D = b² - 4ac</div>
+                    <div class="math-block">
+                        x₁,₂ = <div class="fraction"><span class="top">-b ± √D</span><span class="bottom">2a</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Арифметическая прогрессия</h3>
+                    <div class="math-block">aₙ = a₁ + d(n - 1)</div>
+                    <div class="math-block">
+                        Sₙ = <div class="fraction"><span class="top">(a₁ + aₙ) · n</span><span class="bottom">2</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Свойства степеней</h3>
+                    <div class="math-block">a<span class="sup">n</span> · a<span class="sup">m</span> = a<span class="sup">n+m</span></div>
+                    <div class="math-block">a<span class="sup">n</span> : a<span class="sup">m</span> = a<span class="sup">n-m</span></div>
+                    <div class="math-block">(a<span class="sup">n</span>)<span class="sup">m</span> = a<span class="sup">nm</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ГЕОМЕТРИЯ (ТЕОРИЯ) -->
+        <section id="geometry" class="content-section">
+            <h2>📐 Геометрия</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Теорема Пифагора</h3>
+                    <svg class="geo-svg" width="200" height="120" viewBox="0 0 200 120">
+                        <polygon points="20,100 180,100 20,20" fill="none" />
+                        <rect x="20" y="90" width="10" height="10" fill="none" stroke="white"/>
+                        <text x="10" y="60" class="geo-text">a</text>
+                        <text x="100" y="115" class="geo-text">b</text>
+                        <text x="100" y="50" class="geo-text">c</text>
+                    </svg>
+                    <div class="math-block">c² = a² + b²</div>
+                </div>
+
+                <div class="card">
+                    <h3>Площадь треугольника</h3>
+                    <div class="math-block">S = <div class="fraction"><span class="top">1</span><span class="bottom">2</span></div> a · h</div>
+                </div>
+
+                <div class="card">
+                    <h3>Окружность</h3>
+                    <p>Длина окружности: C = 2πR</p>
+                    <p>Площадь круга: S = πR²</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ФОРМУЛЫ -->
+        <section id="formulas" class="content-section">
+            <h2>📝 Справочник</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>ФСУ</h3>
+                    <div class="math-block">(a + b)² = a² + 2ab + b²</div>
+                    <div class="math-block">(a - b)² = a² - 2ab + b²</div>
+                    <div class="math-block">a² - b² = (a - b)(a + b)</div>
+                </div>
+                
+                <div class="card">
+                    <h3>Тригонометрия</h3>
+                    <table class="math-table">
+                        <tr><th>α</th><th>30°</th><th>45°</th><th>60°</th></tr>
+                        <tr><td>sin</td><td>1/2</td><td>√2/2</td><td>√3/2</td></tr>
+                        <tr><td>cos</td><td>√3/2</td><td>√2/2</td><td>1/2</td></tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Таблица квадратов</h3>
+                    <table class="math-table">
+                        <tr><td>11² = 121</td><td>12² = 144</td><td>13² = 169</td></tr>
+                        <tr><td>14² = 196</td><td>15² = 225</td><td>16² = 256</td></tr>
+                        <tr><td>20² = 400</td><td>25² = 625</td><td>30² = 900</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПРАКТИКА (ГЕНЕРАТОР) -->
+        <section id="tasks" class="content-section">
+            <h2>✅ Задания 1-19</h2>
+            
+            <div class="practice-filter">
+                <button class="filter-btn active" onclick="generateTasks('prob')">Вероятность</button>
+                <button class="filter-btn" onclick="generateTasks('alg')">Алгебра</button>
+                <button class="filter-btn" onclick="generateTasks('geo')">Геометрия</button>
+            </div>
+            
+            <p style="text-align:center; color: var(--text-muted); margin-bottom: 20px; font-size: 0.9em;">При обновлении страницы или нажатии на кнопку задания меняются</p>
+
+            <div id="tasks-container">
+                <!-- Задания генерируются скриптом -->
+            </div>
+        </section>
+
+        <!-- ЧАСТЬ 2 -->
+        <section id="part2" class="content-section">
+            <h2>📝 Часть 2 (Развернутый ответ)</h2>
+            <div class="card">
+                <span class="task-num">Задание 20</span>
+                <p><strong>Решите уравнение: x² - 2x + √(3-x) = √(3-x) + 8</strong></p>
+                <div class="solution-toggle" onclick="toggleSol(this)">Показать решение</div>
+                <div class="solution-content">
+                    <p>1. ОДЗ: 3 - x ≥ 0 ⇒ x ≤ 3</p>
+                    <p>2. Упрощаем: x² - 2x - 8 = 0</p>
+                    <p>3. Корни: x = 4, x = -2</p>
+                    <p>4. Проверка: 4 > 3 (не подходит). -2 ≤ 3 (подходит).</p>
+                    <p><strong>Ответ: -2</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПОДСКАЗКИ -->
+        <section id="tips" class="content-section">
+            <h2>💡 Лайфхаки</h2>
+            <div class="card-grid">
+                <div class="card tip-card">
+                    <h3>Квадрат на 5</h3>
+                    <p>35²: 3·(3+1)=12, дописываем 25 ⇒ 1225</p>
+                    <p>65²: 6·7=42, дописываем 25 ⇒ 4225</p>
+                </div>
+                <div class="card tip-card">
+                    <h3>Тайминг</h3>
+                    <p>• Алгебра: 30 мин</p>
+                    <p>• Геометрия: 30 мин</p>
+                    <p>• Часть 2: все остальное время</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ИНФО -->
+        <section id="info" class="content-section">
+            <h2>ℹ️ Информация</h2>
+            <div class="card">
+                <h3>Баллы</h3>
+                <ul style="list-style: none; line-height: 2;">
+                    <li><strong>3</strong>: 8-14 баллов (минимум 2 геометрии)</li>
+                    <li><strong>4</strong>: 15-21 балл</li>
+                    <li><strong>5</strong>: 22-31 балл</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            © 2024 Подготовка к ОГЭ. Генератор вариантов.
+        </footer>
+    </div>
+
+    <script>
+        // === ГЕНЕРАЦИЯ ФОНА ===
+        function createShapes() {
+            const container = document.getElementById('bgShapes');
+            const symbols = ['π', '∫', '∑', '√', 'α', 'β', 'x'];
+            
+            for (let i = 0; i < 40; i++) {
+                const el = document.createElement('div');
+                el.classList.add('shape');
+                
+                const rand = Math.random();
+                if (rand < 0.3) el.classList.add('triangle');
+                else if (rand < 0.6) el.classList.add('circle');
+                else if (rand < 0.8) el.classList.add('square');
+                else {
+                    el.classList.add('symbol');
+                    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                    el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                }
+
+                el.style.left = Math.random() * 100 + '%';
+                el.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                el.style.animationDelay = '-' + (Math.random() * 20) + 's';
+                container.appendChild(el);
+            }
+        }
+
+        // === UI ФУНКЦИИ ===
+        function showSection(id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if(id === 'tasks') generateTasks('prob'); 
+        }
+
+        function toggleSol(el) {
+            const content = el.nextElementSibling;
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                el.innerText = 'Показать решение';
+            } else {
+                content.style.display = 'block';
+                el.innerText = 'Скрыть решение';
+            }
+        }
+
+        // === ГЕНЕРАТОР ЗАДАНИЙ ===
+        function rand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Библиотека шаблонов заданий
+        const taskTemplates = {
+            prob: [ // ВЕРОЯТНОСТЬ
+                () => {
+                    const total = rand(20, 60);
+                    const n = [10, 20, 25, 40, 50][rand(0, 4)]; // Красивый знаменатель
+                    const m = rand(1, n/2);
+                    return {
+                        text: `В фирме такси ${n} машин: ${m} черных, остальные желтые. Найдите вероятность, что приедет черная машина.`,
+                        ans: (m/n).toString().replace('.', ','),
+                        sol: `P = m/n = ${m}/${n} = ${m/n}`
+                    };
+                },
+                () => {
+                    const n = [10, 20][rand(0, 1)];
+                    const k = rand(1, n-1);
+                    return {
+                        text: `В тарелке ${n} пирожков: ${k} с мясом, остальные с капустой. Найдите вероятность выбора пирожка с мясом.`,
+                        ans: (k/n).toString().replace('.', ','),
+                        sol: `Благоприятных: ${k}. Всего: ${n}. P = ${k/n}`
+                    };
+                },
+                () => {
+                    const sides = rand(100, 500);
+                    const defects = rand(2, 10);
+                    const freq = (defects/sides).toFixed(3); // Частота
+                    return {
+                        text: `Из каждых ${sides} лампочек в среднем ${defects} неисправны. Найдите вероятность купить исправную лампочку (округлите до сотых).`,
+                        ans: (1 - defects/sides).toFixed(2).replace('.', ','),
+                        sol: `Вероятность брака: ${defects}/${sides}. Исправных: 1 - ${defects/sides} ≈ ${(1 - defects/sides).toFixed(2)}`
+                    };
+                }
+            ],
+            alg: [ // АЛГЕБРА
+                () => {
+                    const x = rand(-10, 10);
+                    const a = rand(2, 9);
+                    const b = rand(1, 50);
+                    const res = a * x + b;
+                    return {
+                        text: `Решите уравнение: ${a}x + ${b} = ${res}`,
+                        ans: x.toString(),
+                        sol: `${a}x = ${res - b} ⇒ x = ${x}`
+                    };
+                },
+                () => {
+                    const x = rand(2, 15);
+                    const sq = x * x;
+                    return {
+                        text: `Решите уравнение: x² - ${sq} = 0. В ответ запишите меньший корень.`,
+                        ans: (-x).toString(),
+                        sol: `x = ±${x}. Меньший: -${x}`
+                    };
+                },
+                () => {
+                    const x1 = rand(-5, 5);
+                    const x2 = rand(-5, 5);
+                    const b = -(x1 + x2);
+                    const c = x1 * x2;
+                    return {
+                        text: `Найдите корни уравнения: x² ${b>=0?'+'+b:b}x ${c>=0?'+'+c:c} = 0. В ответ запишите их сумму.`,
+                        ans: (x1+x2).toString(),
+                        sol: `По теореме Виета сумма корней равна -b. Ответ: ${x1+x2}`
+                    };
+                }
+            ],
+            geo: [ // ГЕОМЕТРИЯ
+                () => {
+                    const a1 = rand(20, 80);
+                    const a2 = rand(20, 80);
+                    const a3 = 180 - a1 - a2;
+                    return {
+                        text: `В треугольнике два угла равны ${a1}° и ${a2}°. Найдите третий угол.`,
+                        ans: a3.toString(),
+                        sol: `180 - (${a1} + ${a2}) = ${a3}`
+                    };
+                },
+                () => {
+                    const a = rand(3, 15);
+                    const b = rand(3, 15);
+                    const s = 0.5 * a * b;
+                    return {
+                        text: `Найдите площадь прямоугольного треугольника с катетами ${a} и ${b}.`,
+                        ans: s.toString().replace('.', ','),
+                        sol: `S = 1/2 · ${a} · ${b} = ${s}`
+                    };
+                },
+                () => {
+                    const a = rand(2, 10);
+                    const b = rand(12, 30);
+                    const m = (a + b) / 2;
+                    return {
+                        text: `Основания трапеции равны ${a} и ${b}. Найдите среднюю линию.`,
+                        ans: m.toString().replace('.', ','),
+                        sol: `(${a} + ${b}) / 2 = ${m}`
+                    };
+                }
+            ]
+        };
+
+        function generateTasks(category) {
+            const container = document.getElementById('tasks-container');
+            container.innerHTML = '';
+            
+            // Обновление кнопок
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            // Находим кнопку по onclick и делаем активной (упрощенно для демо)
+            const btns = document.querySelectorAll('.filter-btn');
+            if(category === 'prob') btns[0].classList.add('active');
+            if(category === 'alg') btns[1].classList.add('active');
+            if(category === 'geo') btns[2].classList.add('active');
+
+            const templates = taskTemplates[category];
+
+            // Генерируем 30 задач
+            for (let i = 1; i <= 30; i++) {
+                // Выбираем случайный шаблон из категории
+                const tempFunc = templates[rand(0, templates.length - 1)];
+                const task = tempFunc();
+
+                const html = `
+                    <div class="task-item">
+                        <span class="task-num">Задача ${i}</span>
+                        <p>${task.text}</p>
+                        <div class="answer-box">
+                            <input type="text" class="task-input" id="ans-${i}" placeholder="Ответ">
+                            <button class="check-btn" onclick="checkAnswer(${i}, '${task.ans}')">ОК</button>
+                        </div>
+                        <div id="res-${i}" class="result"></div>
+                        <div class="solution-toggle" onclick="toggleSol(this)">Показать решение</div>
+                        <div class="solution-content">${task.sol}</div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            }
+        }
+
+        function checkAnswer(id, correct) {
+            const input = document.getElementById('ans-' + id);
+            const res = document.getElementById('res-' + id);
+            const val = input.value.replace(',', '.').trim();
+            const corr = correct.replace(',', '.');
+
+            if (val === corr) {
+                res.className = 'result ok';
+                res.innerText = 'Верно! Молодец.';
+                input.style.borderColor = 'var(--success)';
+            } else {
+                res.className = 'result bad';
+                res.innerText = 'Ошибка.';
+                input.style.borderColor = 'var(--danger)';
+            }
+        }
+
+        // Старт
+        window.onload = function() {
+            createShapes();
+            showSection('algebra'); // По умолчанию открываем теорию
+        };
+    </script>
+</body>
+</html>
